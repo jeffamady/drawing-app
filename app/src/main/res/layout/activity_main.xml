@@ -14,7 +14,21 @@
         android:background="@drawable/drawing_view_layout_bg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ib_brush"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:contentDescription="@string/brush_size"
+        android:id="@+id/ib_brush"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_brush_01"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
