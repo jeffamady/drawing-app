@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import com.amadydev.drawingapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mImageButtonCurrentPaint: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             //Set the brush size
             drawingView.setSizeForBrush(20.toFloat())
+
+            mImageButtonCurrentPaint = llPaintColors[1] as ImageButton
+            mImageButtonCurrentPaint.setImageDrawable(
+                ContextCompat.getDrawable(this@MainActivity, R.drawable.pallet_selected )
+                )
 
             //Listeners
             ibBrush.setOnClickListener {
