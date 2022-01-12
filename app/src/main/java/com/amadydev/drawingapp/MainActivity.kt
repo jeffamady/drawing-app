@@ -3,6 +3,7 @@ package com.amadydev.drawingapp
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,100 +15,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.view.marginLeft
 import com.amadydev.drawingapp.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mImageButtonCurrentPaint: ImageButton
 
-    // Camera Permission
-    private val cameraResultLauncher: ActivityResultLauncher<String> =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted ->
-            if (isGranted) {
-                Toast.makeText(
-                    this,
-                    "Yes is granted for camera",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Permission denied for camera ",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        }
-
-    // Camera Permission
-    private val cameraAndLocationResultLauncher: ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) {
-            it.entries.forEach { permision ->
-                val permissionName = permision.key
-                val isGranted = permision.value
-                if (isGranted) {
-                    if (permissionName == Manifest.permission.ACCESS_FINE_LOCATION) {
-                        Toast.makeText(
-                            this,
-                            "Yes is granted for fine location",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else if (permissionName == Manifest.permission.ACCESS_COARSE_LOCATION) {
-                        Toast.makeText(
-                            this,
-                            "Yes is granted for coarse location",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-
-                    }else {
-                        Toast.makeText(
-                            this,
-                            "Yes is granted for camera",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-
-                    }
-                } else {
-                    if (permissionName == Manifest.permission.ACCESS_FINE_LOCATION) {
-                        Toast.makeText(
-                            this,
-                            "Permission denied for fine location",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else if (permissionName == Manifest.permission.ACCESS_COARSE_LOCATION) {
-                        Toast.makeText(
-                            this,
-                            "Permission denied for coarse location",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Permission denied for camera",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                }
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        showSnackbar(binding.root.rootView, "Welcome to the app", Color.GREEN)
 
         with(binding) {
             //Set the brush size
@@ -143,9 +65,11 @@ class MainActivity : AppCompatActivity() {
                 )
             } else {
                 cameraAndLocationResultLauncher.launch(
-                    arrayOf(Manifest.permission.CAMERA,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    arrayOf(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
                 )
             }
         }
@@ -161,7 +85,23 @@ class MainActivity : AppCompatActivity() {
             setPositiveButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
             }
-        }.run { create().show() }
+            create()
+            setCancelable(false)
+            show()
+        }
+    }
+
+    // Snack Bar
+    private fun showSnackbar(view: View, text: String, color: Int) {
+        Snackbar.make(view, text, Snackbar.LENGTH_LONG).apply {
+            this.view.setBackgroundColor(color)
+            this.setTextColor(Color.BLACK)
+            this.view.setPadding(0, 0, 0, 0)
+        }.run { show() }
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
     private fun showBrushChooserDialog() {
@@ -207,4 +147,68 @@ class MainActivity : AppCompatActivity() {
             mImageButtonCurrentPaint = view
         }
     }
+
+
+    // Permissions
+    private val cameraAndLocationResultLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+
+            permissions.entries.forEach { permision ->
+                val permissionName = permision.key
+                val isGranted = permision.value
+                if (isGranted) {
+                    when (permissionName) {
+                        Manifest.permission.ACCESS_FINE_LOCATION -> {
+                            showToast("Yes is granted for fine location")
+                        }
+                        Manifest.permission.ACCESS_COARSE_LOCATION -> {
+                            showToast("Yes is granted for coarse location")
+
+                        }
+                        else -> {
+                            showToast("Yes is granted for camera")
+                        }
+                    }
+                } else {
+                    when (permissionName) {
+                        Manifest.permission.ACCESS_FINE_LOCATION -> {
+                            showToast("Permission denied for fine location")
+                        }
+                        Manifest.permission.ACCESS_COARSE_LOCATION -> {
+                            showToast("Permission denied for coarse location")
+                        }
+                        else -> {
+                            showToast("Permission denied for camera")
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+    // Camera Permission
+    private val cameraResultLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(
+                    this,
+                    "Yes is granted for camera",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Permission denied for camera ",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
 }
