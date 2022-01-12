@@ -3,10 +3,13 @@ package com.amadydev.drawingapp
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.core.view.get
+import androidx.core.view.size
 import com.amadydev.drawingapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,16 +26,24 @@ class MainActivity : AppCompatActivity() {
             drawingView.setSizeForBrush(20.toFloat())
 
             mImageButtonCurrentPaint = llPaintColors[1] as ImageButton
-            mImageButtonCurrentPaint.setImageDrawable(
-                ContextCompat.getDrawable(this@MainActivity, R.drawable.pallet_selected )
-                )
+
 
             //Listeners
-            ibBrush.setOnClickListener {
-                showBrushChooserDialog()
-            }
+            setListeners()
         }
 
+    }
+
+    private fun ActivityMainBinding.setListeners() {
+        ibBrush.setOnClickListener {
+            showBrushChooserDialog()
+        }
+
+        llPaintColors.forEach { imageButton ->
+            imageButton.setOnClickListener {
+                paintClicked(it)
+            }
+        }
     }
 
     private fun showBrushChooserDialog() {
@@ -59,5 +70,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         brushDialog.show()
+    }
+    
+    private fun paintClicked(view: View) {
+        if(view != mImageButtonCurrentPaint){
+            val imageButton = view as ImageButton
+            val colorTag = imageButton.tag.toString()
+            binding.drawingView.setColor(colorTag)
+
+            imageButton.setImageDrawable(
+                ContextCompat.getDrawable(this@MainActivity, R.drawable.pallet_selected )
+            )
+
+            mImageButtonCurrentPaint.setImageDrawable(
+                ContextCompat.getDrawable(this@MainActivity, R.drawable.pallet_normal )
+            )
+
+            mImageButtonCurrentPaint = view
+        }
     }
 }
