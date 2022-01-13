@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
+import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.amadydev.drawingapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         showSnackbar(binding.root.rootView, "Welcome to the app", Color.GREEN)
+        onCrashConfig()
 
         with(binding) {
             //Set the brush size
@@ -41,6 +43,18 @@ class MainActivity : AppCompatActivity() {
             setListeners()
         }
 
+    }
+
+    private fun onCrashConfig() {
+        CaocConfig.Builder.create()
+            .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
+            .showErrorDetails(false)
+            .minTimeBetweenCrashesMs(2000)
+            .logErrorOnRestart(false)
+            .errorDrawable(R.drawable.ic_launcher_foreground)
+            .errorActivity(ErrorActivity::class.java)
+            .restartActivity(MainActivity::class.java)
+            .apply()
     }
 
     private fun ActivityMainBinding.setListeners() {
@@ -62,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     "${getString(R.string.app_name)} requires Permissions access",
                     getString(R.string.message_permission)
                 )
+                throw Exception("Sorry its a test")
             } else {
                 cameraAndLocationResultLauncher.launch(
                     arrayOf(
