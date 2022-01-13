@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/layout/app_bar_error.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/content_error.xml" value="0.4343015214384509" />
         <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/dialog_custom_progress.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/fragment_reflow.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/fragment_transform.xml" value="0.19519927536231885" />
