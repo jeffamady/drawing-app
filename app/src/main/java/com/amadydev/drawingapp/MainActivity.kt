@@ -1,7 +1,6 @@
 package com.amadydev.drawingapp
 
 import android.Manifest
-import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
@@ -9,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.get
-import androidx.core.view.marginLeft
 import com.amadydev.drawingapp.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -60,8 +59,8 @@ class MainActivity : AppCompatActivity() {
                 shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)
             ) {
                 showRationaleDialog(
-                    "${getString(R.string.app_name)} requires camera access",
-                    "Camera cannot be used because Camera is denied, go to the setting to allow it"
+                    "${getString(R.string.app_name)} requires Permissions access",
+                    getString(R.string.message_permission)
                 )
             } else {
                 cameraAndLocationResultLauncher.launch(
@@ -75,16 +74,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showRationaleDialog(
+    private fun showRationaleDialog( //Custom dialog
         title: String,
         message: String
     ) {
-        AlertDialog.Builder(this).apply {
-            setTitle(title)
-            setMessage(message)
-            setPositiveButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
+        Dialog(this).apply {
+            setContentView(R.layout.custom_dialog)
+            findViewById<TextView>(R.id.tv_submit_dialog).let {
+                it.setOnClickListener {
+                    showToast("Clicked submit")
+                    dismiss()
+                }
+
             }
+
+            findViewById<TextView>(R.id.tv_cancel_dialog).let {
+                it.setOnClickListener {
+                    showToast("Clicked cancel")
+                    dismiss()
+                }
+
+            }
+
+            findViewById<TextView>(R.id.tv_dialog_title).text = title
+
+            findViewById<TextView>(R.id.tv_dialog_message).text = message
+
             create()
             setCancelable(false)
             show()
@@ -186,8 +201,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
 
 
     // Camera Permission
