@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Drawing App</string>
     <string name="brush_size">Brush size</string>
+    <string name="cancel">CANCEL</string>
+    <string name="submit">SUBMIT</string>
+    <string name="description_custom_dialog">This is the description of the dialog you can submit or cancel</string>
+    <string name="custom_dialog">Custom Dialog</string>
+    <string name="permissions">Permissions</string>
+    <string name="message_permission">We have already ask you for the permissions. You did not accept them, now please go in setting and Accep them</string>
 </resources>
