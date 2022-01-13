@@ -10,20 +10,20 @@
         android:id="@+id/fl_drawing_view_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="0.5dp"
         android:background="@drawable/drawing_view_layout_bg"
+        android:padding="0.5dp"
         app:layout_constraintBottom_toTopOf="@id/ll_paint_colors"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:contentDescription="@string/app_name"
             android:id="@+id/iv_background"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
-            android:src="@drawable/image_bg"
-            android:layout_height="match_parent"/>
+            android:src="@drawable/image_bg" />
 
         <com.amadydev.drawingapp.DrawingView
             android:id="@+id/drawing_view"
@@ -141,11 +141,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_paint_colors"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@+id/ll_paint_colors">
+
         <ImageButton
             android:id="@+id/ib_gallery"
             android:layout_width="50dp"
@@ -153,8 +154,7 @@
             android:layout_margin="5dp"
             android:contentDescription="@string/brush_size"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_baseline_add_photo_alternate_24"
-            />
+            android:src="@drawable/ic_baseline_add_photo_alternate_24" />
 
 
         <ImageButton
@@ -164,8 +164,13 @@
             android:layout_margin="5dp"
             android:contentDescription="@string/brush_size"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_brush_01"
- />
+            android:src="@drawable/ic_brush_01" />
+
+        <Button
+            android:id="@+id/btn_loading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="..."/>
 
     </LinearLayout>
 

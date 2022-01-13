@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         showSnackbar(binding.root.rootView, "Welcome to the app", Color.GREEN)
+
+        // Crash Config
         onCrashConfig()
 
         with(binding) {
@@ -76,7 +78,6 @@ class MainActivity : AppCompatActivity() {
                     "${getString(R.string.app_name)} requires Permissions access",
                     getString(R.string.message_permission)
                 )
-                throw Exception("Sorry its a test")
             } else {
                 cameraAndLocationResultLauncher.launch(
                     arrayOf(
@@ -87,6 +88,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+        btnLoading.setOnClickListener { showCustomProgressDialog() }
     }
 
     private fun showRationaleDialog( //Custom dialog
@@ -239,4 +241,11 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
         }
+
+    private fun showCustomProgressDialog() {
+        Dialog(this).apply {
+            setContentView(R.layout.dialog_custom_progress)
+            show()
+        }
+    }
 }
